@@ -1,0 +1,46 @@
+class Solution {
+    public int minMeetingRooms(int[][] intervals) 
+    {
+        PriorityQueue<int[]> wait=new PriorityQueue(new Comparator<int[]>()
+        {
+            public int compare(int[] a1,int[] a2)
+            {
+                return a1[0]-a2[0];
+            }
+        });
+        PriorityQueue<int[]> meeting=new PriorityQueue(new Comparator<int[]>()
+        {
+            public int compare(int[] a1,int[] a2)
+            {
+                return a1[1]-a2[1];
+
+            }
+        });
+        int size=1;
+        for(int a[]:intervals)
+        {
+            wait.add(a);
+        }
+        while(!wait.isEmpty())
+        {
+            int curr[]=wait.poll();
+            if(meeting.size()<size)
+            {
+                meeting.offer(curr);
+            }
+            
+            else if(meeting.peek()[1]<=curr[0])
+            {
+                meeting.poll();
+                meeting.offer(curr);
+            }
+            else
+            {
+                size++;
+                meeting.offer(curr);
+            }
+        }
+
+        return size;
+    }
+}
